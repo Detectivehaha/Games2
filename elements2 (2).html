@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Элементы 1–53</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f4f6fb;--card:#fff;--tx:#18202e;--mut:#6b7587;--ac:#2a7de1;--bd:#dfe4ee;--ok:#2e9e5b}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10141c;--card:#1b2230;--tx:#eef1f7;--mut:#93a0b8;--ac:#5aa2f5;--bd:#2a3347;--ok:#4cc27f}}
+:root[data-theme="dark"]{--bg:#10141c;--card:#1b2230;--tx:#eef1f7;--mut:#93a0b8;--ac:#5aa2f5;--bd:#2a3347;--ok:#4cc27f}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--tx);font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;min-height:100vh}
+.bar{display:flex;gap:8px;padding:12px}
+.bar button{flex:1;padding:10px;border-radius:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font:inherit;font-size:14px}
+.bar button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.scr{display:none}.scr.on{display:block}
+.prog{text-align:center;color:var(--mut);font-size:14px;margin-top:6px}
+.stage{perspective:900px;display:flex;justify-content:center;margin:22px 16px 10px}
+.card{width:100%;max-width:340px;height:300px;position:relative;transform-style:preserve-3d;transition:transform .6s}
+.card.f{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--card);border:1px solid var(--bd);border-radius:22px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;text-align:center;box-shadow:0 8px 28px rgba(0,0,0,.12)}
+.front{font:inherit;color:var(--ac);font-size:110px;font-weight:700;cursor:pointer}
+.back{transform:rotateY(180deg);cursor:pointer}
+.back .l{font-size:12px;color:var(--mut);margin-top:12px}
+.back .v{font-size:22px;font-weight:600}
+.hint{text-align:center;color:var(--mut);font-size:13px;margin:0 16px}
+.main{display:block;margin:18px auto 0;width:calc(100% - 32px);max-width:340px;padding:14px;border-radius:14px;border:0;background:var(--ac);color:#fff;font:inherit;font-size:17px;font-weight:600}
+.main.alt{background:var(--card);color:var(--tx);border:1px solid var(--bd)}
+.res{text-align:center;padding:50px 16px 0}
+.res .n{font-size:64px;font-weight:700;color:var(--ok)}
+#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(62px,1fr));gap:8px;padding:0 12px 230px}
+.t{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:6px 0 8px;text-align:center;font:inherit;color:inherit}
+.t small{display:block;font-size:10px;color:var(--mut)}
+.t b{font-size:22px}
+.t.on{border-color:var(--ac);box-shadow:0 0 0 2px var(--ac)}
+#panel{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--bd);border-radius:18px 18px 0 0;padding:14px 16px calc(14px + env(safe-area-inset-bottom,0px));box-shadow:0 -6px 24px rgba(0,0,0,.15);display:none}
+#panel.on{display:block}
+.top{display:flex;align-items:center;gap:14px}
+.big{font-size:44px;font-weight:700;color:var(--ac);min-width:64px;text-align:center}
+.say{font-size:20px;font-weight:600}
+.lbl{font-size:12px;color:var(--mut)}
+.sp{margin-left:auto;background:var(--ac);color:#fff;border:0;border-radius:50%;width:44px;height:44px;font-size:20px}
+.row{margin-top:10px;font-size:16px}
+.row span{color:var(--mut);font-size:12px;display:block}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 12px 10px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5}
+.chips button{flex:0 0 auto;padding:8px 14px;border-radius:20px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font:inherit;font-size:14px;white-space:nowrap}
+.chips button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+#tbody{padding:0 12px 30px}
+#tbody h2{font-size:18px;margin:6px 2px 10px}
+.it{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:10px 12px;margin-bottom:8px;font-size:15px;line-height:1.4}
+.it b{display:block;color:var(--ac);margin-bottom:2px}
+</style>
+</head>
+<body>
+<div class="bar"><button id="bq" class="on">Тест</button><button id="bl">Все элементы</button><button id="bt">Темы</button></div>
+
+<div id="quiz" class="scr on">
+  <div class="prog" id="prog"></div>
+  <div class="stage"><div class="card" id="card">
+    <button class="face front" id="front">H</button>
+    <div class="face back">
+      <div class="lbl">Читается</div><div class="v" id="bSay"></div>
+      <div class="l">Что означает</div><div class="v" id="bNm"></div>
+      <div class="l">Валентность</div><div class="v" id="bVal"></div>
+    </div>
+  </div></div>
+  <p class="hint" id="hint">Знаете элемент — нажмите на него. Не знаете — кнопка внизу.</p>
+  <button class="main alt" id="act">Не знаю</button>
+</div>
+
+<div id="result" class="scr">
+  <div class="res"><div class="lbl">Вы отгадали</div><div class="n" id="score"></div>
+  <p class="hint" id="msg"></p></div>
+  <button class="main" id="again">Пройти заново</button>
+  <button class="main alt" id="all">Посмотреть все элементы до 53</button>
+</div>
+
+<div id="list" class="scr"><div id="grid"></div>
+  <div id="panel">
+    <div class="top"><div class="big" id="sym"></div>
+    <div><div class="lbl">Читается</div><div class="say" id="say"></div></div>
+    <button class="sp" id="spk" aria-label="Озвучить">🔊</button></div>
+    <div class="row"><span>Что означает (по-русски)</span><div id="nm"></div></div>
+    <div class="row"><span>Валентность</span><div id="val"></div></div>
+  </div>
+</div>
+
+<div id="theory" class="scr"><div class="chips" id="chips"></div><div id="tbody"></div></div>
+
+<script>
+// символ|название|как читается|валентность (в скобках — редкие)
+const D=`H|Водород|аш|I
+He|Гелий|гелий|0
+Li|Литий|литий|I
+Be|Бериллий|бериллий|II
+B|Бор|бэ|III
+C|Углерод|цэ|II, IV
+N|Азот|эн|(I), (II), III, IV, (V)
+O|Кислород|о|II
+F|Фтор|фтор|I
+Ne|Неон|неон|0
+Na|Натрий|натрий|I
+Mg|Магний|магний|II
+Al|Алюминий|алюминий|III
+Si|Кремний|силициум|(II), IV
+P|Фосфор|пэ|III, V
+S|Сера|эс|II, IV, VI
+Cl|Хлор|хлор|I, III, V, VII
+Ar|Аргон|аргон|0
+K|Калий|калий|I
+Ca|Кальций|кальций|II
+Sc|Скандий|скандий|III
+Ti|Титан|титан|II, III, IV, (V)
+V|Ванадий|вэ|II, III, IV, V
+Cr|Хром|хром|II, III, VI
+Mn|Марганец|марганец|II, III, IV, VI, VII
+Fe|Железо|феррум|II, III
+Co|Кобальт|кобальт|II, III
+Ni|Никель|никель|II, (III)
+Cu|Медь|купрум|I, II
+Zn|Цинк|цинк|II
+Ga|Галлий|галлий|III
+Ge|Германий|германий|II, IV
+As|Мышьяк|арсеникум|III, V
+Se|Селен|селен|II, IV, VI
+Br|Бром|бром|I, III, V, VII
+Kr|Криптон|криптон|0, (II)
+Rb|Рубидий|рубидий|I
+Sr|Стронций|стронций|II
+Y|Иттрий|иттрий|III
+Zr|Цирконий|цирконий|IV
+Nb|Ниобий|ниобий|III, V
+Mo|Молибден|молибден|II, III, IV, V, VI
+Tc|Технеций|технеций|IV, VII
+Ru|Рутений|рутений|III, IV, VIII
+Rh|Родий|родий|III
+Pd|Палладий|палладий|II, IV
+Ag|Серебро|аргентум|I
+Cd|Кадмий|кадмий|II
+In|Индий|индий|III
+Sn|Олово|станнум|II, IV
+Sb|Сурьма|стибиум|III, V
+Te|Теллур|теллур|II, IV, VI
+I|Иод|иод|I, III, V, VII`.split("\n").map(l=>l.split("|"));
+const $=id=>document.getElementById(id);
+function speak(t){try{if(!window.speechSynthesis)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang="ru-RU";u.rate=.85;speechSynthesis.speak(u);}catch(x){}}
+function show(id){["quiz","result","list","theory"].forEach(s=>$(s).classList.toggle("on",s===id));
+  $("bq").classList.toggle("on",id==="quiz"||id==="result");$("bl").classList.toggle("on",id==="list");$("bt").classList.toggle("on",id==="theory");}
+
+// ---- тест ----
+const N=7;let q=[],i=0,score=0,flipped=false;
+function start(){
+  const a=D.map((_,k)=>k);
+  for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]];}
+  q=a.slice(0,N);i=0;score=0;show("quiz");next0();
+}
+function next0(){
+  flipped=false;$("card").classList.remove("f");
+  const e=D[q[i]];$("front").textContent=e[0];
+  $("prog").textContent="Элемент "+(i+1)+" из "+N;
+  $("act").textContent="Не знаю";$("act").className="main alt";
+  $("hint").style.visibility="visible";
+}
+function reveal(known){
+  if(flipped)return;flipped=true;if(known)score++;
+  const e=D[q[i]];
+  $("bSay").textContent=e[2];$("bNm").textContent=e[1];$("bVal").textContent=e[3];
+  $("card").classList.add("f");speak(e[2]);
+  $("hint").style.visibility="hidden";
+  $("act").textContent=i===N-1?"Узнать результат":"Дальше";$("act").className="main";
+}
+function flipCard(){$("card").classList.toggle("f");}
+$("front").onclick=()=>{if(flipped)flipCard();else reveal(true);};
+document.querySelector(".back").onclick=flipCard;
+$("act").onclick=()=>{
+  if(!flipped){reveal(false);return;}
+  if(i<N-1){i++;next0();}else finish();
+};
+function finish(){
+  $("score").textContent=score+" из "+N;
+  $("msg").textContent=score===N?"Отлично, все верно!":score>=5?"Хороший результат!":score>=3?"Неплохо, можно лучше.":"Стоит повторить — загляните в список элементов.";
+  show("result");
+}
+$("again").onclick=start;
+$("bq").onclick=start;
+
+// ---- список ----
+const g=$("grid");let cur=null;
+D.forEach((e,k)=>{const b=document.createElement("button");b.className="t";
+  b.innerHTML="<small>"+(k+1)+"</small><b>"+e[0]+"</b>";
+  b.onclick=()=>{document.querySelectorAll(".t.on").forEach(x=>x.classList.remove("on"));b.classList.add("on");cur=e;
+    $("sym").textContent=e[0];$("say").textContent=e[2];$("nm").textContent=(k+1)+". "+e[1];$("val").textContent=e[3];
+    $("panel").classList.add("on");speak(e[2]);};
+  g.appendChild(b);});
+$("spk").onclick=()=>{if(cur)speak(cur[2])};
+function openList(){show("list");}
+$("bl").onclick=openList;$("all").onclick=openList;
+
+// ---- темы 8 класса ----
+const TX=`# Начальные понятия
+Вещество|То, из чего состоит физическое тело (железо, вода, сахар).
+Чистое вещество и смесь|Чистое вещество — одно вещество с постоянными свойствами. Смесь — несколько веществ, сохраняющих свои свойства.
+Атом|Мельчайшая химически неделимая частица вещества.
+Молекула|Наименьшая частица вещества, сохраняющая его химические свойства.
+Химический элемент|Вид атомов с одинаковым зарядом ядра.
+Простые и сложные вещества|Простые — из атомов одного элемента (O₂, Fe). Сложные — из атомов разных элементов (H₂O, CO₂).
+Явления|Физические — новые вещества не образуются (плавление, испарение). Химические — образуются новые вещества (горение, ржавление).
+Разделение смесей|Отстаивание, фильтрование, выпаривание, дистилляция, действие магнитом.
+# Строение атома
+Состав атома|Ядро (протоны p⁺ и нейтроны n⁰) и электроны e⁻ вокруг ядра.
+Заряд ядра Z|Z = число протонов = порядковый номер = число электронов в атоме.
+Массовое число|A = Z + N, откуда N = A − Z (N — число нейтронов).
+Изотопы|Атомы одного элемента с разным числом нейтронов (¹H, ²H, ³H).
+Электронные слои|Число слоёв = номер периода. Максимум электронов на слое: N = 2n² (2, 8, 18).
+Внешний слой|У элементов главных подгрупп число внешних электронов = номер группы.
+Ионы|Катион (+) — атом отдал электроны. Анион (−) — атом принял электроны.
+# Периодический закон
+Закон Менделеева (1869)|Свойства элементов периодически зависят от атомной массы. Современная формулировка: от заряда ядра атома.
+Период|Горизонтальный ряд элементов. Всего 7: малые (1–3) и большие (4–7).
+Группа|Вертикальный столбец (8 групп). Делится на главную (А) и побочную (Б) подгруппы.
+В периоде →|Радиус атома уменьшается, металлические свойства ослабевают, неметаллические усиливаются.
+В главной подгруппе ↓|Радиус атома растёт, металлические свойства усиливаются.
+Валентность по группе|Высшая валентность = номер группы. Низшая у неметаллов = 8 − номер группы.
+Электроотрицательность (ЭО)|Способность атома оттягивать электроны. Наибольшая у фтора F.
+# Химическая связь
+Ковалентная неполярная|Между одинаковыми неметаллами: H₂, O₂, Cl₂, N₂.
+Ковалентная полярная|Между разными неметаллами: HCl, H₂O, NH₃. Общие электроны смещены к более электроотрицательному атому.
+Ионная|Между металлом и неметаллом: NaCl, CaO, KBr.
+Металлическая|В металлах и сплавах: Fe, Cu, Na.
+Кратность связи|H₂ — одинарная, O₂ — двойная, N₂ — тройная.
+Кристаллические решётки|Атомная, молекулярная, ионная, металлическая.
+# Расчёты по формулам
+Ar|Относительная атомная масса (берётся из таблицы Менделеева).
+Mr|Сумма Ar всех атомов с учётом индексов. Mr(H₂SO₄) = 2·1 + 32 + 4·16 = 98.
+Массовая доля элемента|ω(Э) = n·Ar(Э) / Mr · 100%, где n — число атомов элемента.
+Валентность по формуле|Для AₓBᵧ: валентность(A)·x = валентность(B)·y. Например, Al₂O₃: III·2 = II·3.
+Массовые отношения|m(Э₁) : m(Э₂) = n₁·Ar₁ : n₂·Ar₂.
+# Количество вещества
+Количество вещества|n = m / M, единица — моль.
+Молярная масса|M (г/моль) численно равна Mr.
+Число частиц|N = n · Nₐ, где Nₐ = 6,02·10²³ моль⁻¹ (число Авогадро).
+Объём газа|V = n · Vₘ, где Vₘ = 22,4 л/моль (при н. у.).
+Плотность|ρ = m / V.
+Закон Авогадро|В равных объёмах газов при одинаковых условиях содержится одинаковое число молекул.
+Относительная плотность газа|D = M₁ / M₂. D(H₂) = M / 2. D(воздух) = M / 29.
+Объёмная доля газа|φ = V(газа) / V(смеси) · 100%.
+# Химические реакции
+Закон сохранения массы|Масса веществ до реакции равна массе веществ после (Ломоносов, Лавуазье).
+Уравнение реакции|Слева реагенты, справа продукты. Коэффициенты уравнивают число атомов каждого элемента.
+Признаки реакций|Выделение газа, осадок, изменение цвета или запаха, свет, тепло.
+Условия|Соприкосновение веществ, нагревание, катализатор (ускоряет реакцию и не расходуется).
+Соединение|A + B → AB. Пример: 2H₂ + O₂ → 2H₂O.
+Разложение|AB → A + B. Пример: 2H₂O → 2H₂ + O₂.
+Замещение|A + BC → AC + B. Пример: Zn + 2HCl → ZnCl₂ + H₂↑.
+Обмен|AB + CD → AD + CB. Пример: NaOH + HCl → NaCl + H₂O.
+Тепловой эффект|Экзотермические реакции (+Q) идут с выделением тепла, эндотермические (−Q) — с поглощением.
+# Расчёты по уравнениям
+Алгоритм|1) Записать уравнение и расставить коэффициенты. 2) Найти n данного вещества. 3) По коэффициентам найти n искомого. 4) Найти m или V.
+Отношение количеств|n(A) : n(B) = коэффициент перед A : коэффициент перед B.
+Пример|Zn + 2HCl → ZnCl₂ + H₂↑. n(H₂) = n(Zn), V(H₂) = n · 22,4 л.
+Примеси|ω(чистого вещества) = 100% − ω(примесей).
+# Кислород, водород, вода
+Воздух|N₂ ≈ 78%, O₂ ≈ 21%, благородные газы ≈ 1%, CO₂ ≈ 0,03%.
+Получение O₂|2KMnO₄ → K₂MnO₄ + MnO₂ + O₂↑. 2H₂O₂ → (MnO₂) 2H₂O + O₂↑. Распознают тлеющей лучинкой: она вспыхивает.
+Аллотропия|Существование элемента в виде нескольких простых веществ: O₂ (кислород) и O₃ (озон).
+Получение H₂|Zn + 2HCl → ZnCl₂ + H₂↑. Водород — самый лёгкий газ, смесь с O₂ взрывоопасна.
+Вода и металлы|2Na + 2H₂O → 2NaOH + H₂↑.
+Вода и оксиды|CaO + H₂O → Ca(OH)₂. SO₃ + H₂O → H₂SO₄.
+# Классы соединений
+Оксиды|ЭₓOᵧ: два элемента, один из них O. Основные (Na₂O, CaO), кислотные (CO₂, SO₃, P₂O₅), амфотерные (ZnO, Al₂O₃).
+Основания|Me(OH)ₙ. Щёлочи растворимы: NaOH, KOH, Ba(OH)₂, Ca(OH)₂.
+Кислоты|HCl, H₂SO₄, HNO₃, H₃PO₄, H₂CO₃, H₂S, H₂SiO₃.
+Соли|Металл + кислотный остаток: NaCl, CaCO₃, CuSO₄.
+Кислотные остатки|Cl⁻ хлорид, S²⁻ сульфид, NO₃⁻ нитрат, SO₄²⁻ сульфат, SO₃²⁻ сульфит, CO₃²⁻ карбонат, SiO₃²⁻ силикат, PO₄³⁻ фосфат.
+Индикаторы|Лакмус: кислота — красный, щёлочь — синий. Фенолфталеин: щёлочь — малиновый. Метилоранж: кислота — розовый.
+Ряд активности металлов|Li, K, Ba, Ca, Na, Mg, Al, Zn, Fe, Ni, Sn, Pb, (H), Cu, Hg, Ag, Pt, Au.
+Свойства|Кислота + основание → соль + H₂O (нейтрализация). Основный оксид + кислота → соль + H₂O. Кислотный оксид + щёлочь → соль + H₂O. Металл (до H) + кислота → соль + H₂↑.
+Нерастворимые основания|При нагревании разлагаются: Cu(OH)₂ → CuO + H₂O.
+# Растворы
+Раствор|Однородная смесь растворителя и растворённого вещества.
+Масса раствора|m(р-ра) = m(в-ва) + m(воды); также m(р-ра) = ρ · V.
+Массовая доля вещества|ω = m(в-ва) / m(р-ра) · 100%.
+Разбавление|Масса растворённого вещества не меняется: m₁·ω₁ = m₂·ω₂.
+Растворимость|Масса вещества, растворяющегося в 100 г воды при данной температуре. Растворы бывают насыщенные и ненасыщенные.
+# Электролитическая диссоциация
+Электролиты|Проводят ток в растворе или расплаве (кислоты, щёлочи, соли). Неэлектролиты не проводят (сахар, спирт).
+Диссоциация|Распад электролита на ионы в воде. NaCl → Na⁺ + Cl⁻.
+Кислоты|Дают катионы H⁺ и анионы кислотного остатка: HCl → H⁺ + Cl⁻.
+Щёлочи|Дают катионы металла и анионы OH⁻: NaOH → Na⁺ + OH⁻.
+Соли|Дают катионы металла и анионы кислотного остатка.
+Условия реакций обмена|Идут до конца, если образуются осадок, газ или малодиссоциирующее вещество (вода).
+Качественные реакции|Cl⁻ + Ag⁺ → AgCl↓ (белый). SO₄²⁻ + Ba²⁺ → BaSO₄↓ (белый). CO₃²⁻ + 2H⁺ → H₂O + CO₂↑. Cu²⁺ + 2OH⁻ → Cu(OH)₂↓ (голубой). Fe³⁺ + 3OH⁻ → Fe(OH)₃↓ (бурый).
+# Окислительно-восстановительные реакции
+Степень окисления|Условный заряд атома в соединении.
+Правила|У простых веществ 0. У кислорода обычно −2, у водорода +1. Сумма степеней окисления в молекуле равна 0.
+Окисление|Отдача электронов, степень окисления повышается.
+Восстановление|Принятие электронов, степень окисления понижается.
+Окислитель и восстановитель|Окислитель принимает e⁻ (восстанавливается). Восстановитель отдаёт e⁻ (окисляется).
+Электронный баланс|Число отданных электронов равно числу принятых.
+Пример|2Mg⁰ + O₂⁰ → 2Mg⁺²O⁻². Mg⁰ − 2e⁻ → Mg⁺² (восстановитель). O₂⁰ + 4e⁻ → 2O⁻² (окислитель).`;
+const TP=[];let tc;
+TX.split("\n").forEach(l=>{if(l[0]==="#"){tc=[l.slice(2),[]];TP.push(tc);}else if(l.trim()){const p=l.split("|");tc[1].push([p[0],p[1]]);}});
+const chips=$("chips");
+TP.forEach((t,k)=>{const b=document.createElement("button");b.textContent=t[0];b.onclick=()=>topic(k);chips.appendChild(b);});
+function topic(k){
+  [...chips.children].forEach((c,j)=>c.classList.toggle("on",j===k));
+  const body=$("tbody");body.innerHTML="";
+  const h=document.createElement("h2");h.textContent=TP[k][0];body.appendChild(h);
+  TP[k][1].forEach(it=>{const d=document.createElement("div");d.className="it";
+    const b=document.createElement("b");b.textContent=it[0];
+    const s=document.createElement("div");s.textContent=it[1];
+    d.appendChild(b);d.appendChild(s);body.appendChild(d);});
+  window.scrollTo(0,0);
+}
+$("bt").onclick=()=>{show("theory");if(!chips.querySelector(".on"))topic(0);};
+
+try{const w=window.Telegram&&window.Telegram.WebApp;if(w){w.ready();w.expand();}}catch(x){}
+start();
+</script>
+</body>
+</html>
